@@ -1,6 +1,11 @@
 import userModel from "../models/userModel.js";
-import { validateEmail, validatelength } from "../helpers/validation.js";
+import {
+  validateEmail,
+  validateUsername,
+  validatelength,
+} from "../helpers/validation.js";
 import bcrypt from "bcrypt";
+import generateTokens from "../helpers/tokens.js";
 
 export const register = async (req, res) => {
   try {
@@ -54,12 +59,15 @@ export const register = async (req, res) => {
     }
 
     const cryptedPassword = await bcrypt.hash(password, 3);
-    console.log(cryptedPassword);
+    // console.log(cryptedPassword);
+
+    let tempUsername = first_name + last_name;
+    let newUsername = await validateUsername(tempUsername);
 
     const user = await new userModel({
       first_name,
       last_name,
-      username,
+      username: newUsername,
       email,
       password: cryptedPassword,
       bYear,
@@ -67,6 +75,13 @@ export const register = async (req, res) => {
       bDay,
       gender,
     }).save();
+
+    const emailVerificationToken = generateTokens(
+      { id: user._id.toString() },
+      "30m"
+    );
+    console.log(emailVerificationToken);
+
     res.json(user);
   } catch (error) {
     console.log(error);
