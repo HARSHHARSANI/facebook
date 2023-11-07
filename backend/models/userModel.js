@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
     },
     picture: {
       type: String,
-      default: "",
+      default: "../../frontend/public/images/default_pic.png",
       trim: true,
     },
     cover: {
