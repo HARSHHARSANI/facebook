@@ -166,6 +166,7 @@ export const login = async (req, res) => {
       verified: user.verified,
       message: "Login Success!",
     });
+  
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -175,5 +176,3 @@ export const login = async (req, res) => {
     });
   }
 };
-
-export 

@@ -7,3 +7,4 @@ const generateTokens = (payload, expired) => {
 };
 
 export default generateTokens;
+
