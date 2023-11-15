@@ -12,7 +12,7 @@ const loginInfos = {
 const LoginForm = () => {
   const [login, setlogin] = useState(loginInfos);
   const { email, password } = login;
-  console.log(login);
+  // console.log(login);
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setlogin({ ...login, [name]: value });

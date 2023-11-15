@@ -141,6 +141,10 @@
   color: var(--color-secondary);
 }
 
+.reg_line_header i {
+  margin-top: 3px;
+}
+
 .reg_grid {
   margin-top: 5px;
   display: grid;
@@ -158,9 +162,38 @@
   border-radius: 5px;
   cursor: pointer;
 }
-/* -------------Register----------------- */
 
-/* Footer */
+.reg_grid label {
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: var(--color-primary);
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid var(--color-secondary);
+  padding: 0 10px;
+}
+.reg_infos {
+  font-size: 11px;
+  margin-top: 10px;
+  color: var(--color-secondary);
+}
+
+.reg_infos span {
+  color: var(--blue-color);
+}
+.reg_btn_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 10px 0;
+}
+/* -----------------Register----------------- */
+
+/*----------------------------- Footer -------------------------------*/
 .login_footer {
   height: 22vh;
   background: var(--bg-primary);
@@ -206,9 +239,9 @@
   margin: 10px auto;
   max-width: 900px;
 }
-/* Footer */
+/*----------------------------- Footer -------------------------------*/
 
-/* Media queries */
+/* -----------------Media queries-------------------------- */
 
 @media (min-width: 539px) {
   .login_footer_wrap {
@@ -257,4 +290,4 @@
     max-width: 900px;
   }
 }
-/* Media queries */
+/* -----------------Media queries-------------------------- */
