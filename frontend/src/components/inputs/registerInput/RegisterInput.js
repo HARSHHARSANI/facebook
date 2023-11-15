@@ -1,9 +1,8 @@
-import React from "react";
 import "./style.css";
 import { ErrorMessage, useField } from "formik";
 import { useMediaQuery } from "react-responsive";
 
-const LoginInput = ({ placeholder, bottom, ...props }) => {
+const RegisterInput = ({ placeholder, bottom, ...props }) => {
   const [field, meta] = useField(props);
   const desktopView = useMediaQuery({
     query: "(min-width: 850px)",
@@ -62,4 +61,4 @@ const LoginInput = ({ placeholder, bottom, ...props }) => {
   );
 };
 
-export default LoginInput;
+export default RegisterInput;
