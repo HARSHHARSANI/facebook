@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import RegisterInput from "../inputs/registerInput/RegisterInput.js";
 import { useState } from "react";
+import * as Yup from "yup";
 
 const RegisterForm = () => {
   const userInfos = {
@@ -32,7 +33,7 @@ const RegisterForm = () => {
     setuser({ ...user, [name]: value });
   };
 
-  console.log(user);
+  // console.log(user);
   const yearTemp = new Date().getFullYear();
 
   const years = Array.from(new Array(60), (val, index) => yearTemp - index);
@@ -46,6 +47,46 @@ const RegisterForm = () => {
 
   const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
 
+  const registerValidation = Yup.object({
+    first_name: Yup.string()
+      .required("First name is Required")
+      .min(2, "First must be between 2 and 16 charecters")
+      .max(16, "first must be between 2 and 16 charecters")
+      .matches(/^[aA-zZ]+$/, "Numbers and Special charecters are not allowed"),
+
+    last_name: Yup.string()
+      .required("Last name is Required")
+      .min(2, "last must be between 2 and 16 charecters")
+      .max(16, "last must be between 2 and 16 charecters")
+      .matches(/^[aA-zZ]+$/, "Numbers and Special charecters are not allowed"),
+
+    email: Yup.string()
+      .required(
+        "you will need this to login and you ever need to reset your password"
+      )
+      .email("Must Be a Valid Email")
+      .max(50),
+
+    password: Yup.string()
+      .required("Password Is Required")
+      .min(
+        6,
+        "password must be atleast 6 charecter long and maximum 35 charecter long"
+      )
+      .max(
+        35,
+        "password must be atleast 6 charecter long and maximum 35 charecter long"
+      ),
+
+    bDay: Yup.string().required("bDay Is Required"),
+
+    bMonth: Yup.string().required("bMonth Is Required"),
+
+    bYear: Yup.string().required("bYear Is Required"),
+
+    gender: Yup.string().required("gender Is Required"),
+  });
+
   return (
     <div className="blur">
       <div className="register">
@@ -54,7 +95,20 @@ const RegisterForm = () => {
           <span>Sign Up</span>
           <span>it's quick and easy</span>
         </div>
-        <Formik>
+        <Formik
+          enableReinitialize
+          initialValues={{
+            first_name,
+            last_name,
+            email,
+            password,
+            bDay,
+            bMonth,
+            bYear,
+            gender,
+          }}
+          validationSchema={registerValidation}
+        >
           {(formik) => (
             <Form className="register_form">
               <div className="reg_line">

@@ -4,40 +4,32 @@ import { useMediaQuery } from "react-responsive";
 
 const RegisterInput = ({ placeholder, bottom, ...props }) => {
   const [field, meta] = useField(props);
-  const desktopView = useMediaQuery({
+  const view1 = useMediaQuery({
+    query: "(min-width: 539px)",
+  });
+  const view2 = useMediaQuery({
     query: "(min-width: 850px)",
+  });
+  const view3 = useMediaQuery({
+    query: "(min-width: 1170px)",
   });
   // console.log(desktopView);
 
   return (
-    <div className="input_wrap">
-      {meta.touched && meta.error && !bottom && (
-        <div
-          className={
-            desktopView ? "input_error input_error_desktop" : "input_error"
-          }
-          style={{ transform: "translateY(3px)" }}
-        >
-          {meta.touched && meta.error && <ErrorMessage name={field.name} />}
-          {meta.touched && meta.error && (
-            <div
-              className={desktopView ? "error_arrow_left" : "error_arrow_top"}
-            ></div>
-          )}
-        </div>
-      )}
+    <div className="input_wrap register_input_wrap">
       <input
         className={meta.touched && meta.error ? "input_error_border" : ""}
+        style={{width:`${view1 &&  }`}}
         type={props.type || "text"}
         name={field.name}
         placeholder={placeholder}
         {...field}
         {...props}
       />
-      {meta.touched && meta.error && bottom && (
+      {meta.touched && meta.error && (
         <div
           className={
-            desktopView ? "input_error input_error_desktop" : "input_error"
+            view2 ? "input_error input_error_desktop" : "input_error"
           }
           style={{ transform: "translateY(1px)" }}
         >
@@ -45,18 +37,13 @@ const RegisterInput = ({ placeholder, bottom, ...props }) => {
           {meta.touched && meta.error && (
             <div
               className={
-                desktopView ? "error_arrow_left" : "error_arrow_bottom"
+                view2 ? "error_arrow_left" : "error_arrow_bottom"
               }
             ></div>
           )}
         </div>
       )}
-      {meta.touched && meta.error && (
-        <i
-          className="error_icon"
-          style={{ top: `${!bottom && !desktopView ? "63%" : "15px"}` }}
-        ></i>
-      )}
+      {meta.touched && meta.error && <i className="error_icon"></i>}
     </div>
   );
 };
