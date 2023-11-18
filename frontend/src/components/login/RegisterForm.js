@@ -6,8 +6,11 @@ import axios from "axios";
 import DateOfBirthSelect from "./DateOfBirthSelect.js";
 import DotLoader from "react-spinners/DotLoader";
 import GenderSelect from "./GenderSelect.js";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const RegisterForm = () => {
+const RegisterForm = ({ setVisible }) => {
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -88,6 +91,8 @@ const RegisterForm = () => {
   const [error, seterror] = useState("");
   const [success, setsuccess] = useState("");
   const [loading, setloading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const registerSubmit = async () => {
     try {
@@ -97,6 +102,13 @@ const RegisterForm = () => {
       );
       seterror("");
       setsuccess(data.message);
+      const { message, ...rest } = data;
+
+      setTimeout(() => {
+        dispatch({ type: "LOGIN", payload: rest });
+        Cookies.set("user", JSON.stringify(rest));
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.log(error);
       setloading(false);
@@ -109,7 +121,12 @@ const RegisterForm = () => {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i
+            className="exit_icon"
+            onClick={() => {
+              setVisible(false);
+            }}
+          ></i>
           <span>Sign Up</span>
           <span>it's quick and easy</span>
         </div>

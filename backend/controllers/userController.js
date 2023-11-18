@@ -163,7 +163,6 @@ export const login = async (req, res) => {
       last_name: user.last_name,
       token: token,
       verified: user.verified,
-      message: "Login Success!",
     });
   } catch (error) {
     console.log(error);
