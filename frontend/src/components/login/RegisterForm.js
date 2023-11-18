@@ -2,6 +2,8 @@ import { Form, Formik } from "formik";
 import RegisterInput from "../inputs/registerInput/RegisterInput.js";
 import { useState } from "react";
 import * as Yup from "yup";
+import DateOfBirthSelect from "./DateOfBirthSelect.js";
+import GenderSelect from "./GenderSelect.js";
 
 const RegisterForm = () => {
   const userInfos = {
@@ -36,7 +38,7 @@ const RegisterForm = () => {
   // console.log(user);
   const yearTemp = new Date().getFullYear();
 
-  const years = Array.from(new Array(60), (val, index) => yearTemp - index);
+  const years = Array.from(new Array(80), (val, index) => yearTemp - index);
 
   const months = Array.from(new Array(12), (val, index) => 1 + index);
 
@@ -77,15 +79,10 @@ const RegisterForm = () => {
         35,
         "password must be atleast 6 charecter long and maximum 35 charecter long"
       ),
-
-    bDay: Yup.string().required("bDay Is Required"),
-
-    bMonth: Yup.string().required("bMonth Is Required"),
-
-    bYear: Yup.string().required("bYear Is Required"),
-
-    gender: Yup.string().required("gender Is Required"),
   });
+
+  const [genderError, setGenderError] = useState("");
+  const [dateError, setdateError] = useState("");
 
   return (
     <div className="blur">
@@ -108,6 +105,28 @@ const RegisterForm = () => {
             gender,
           }}
           validationSchema={registerValidation}
+          onSubmit={() => {
+            let currentDate = new Date();
+            let pickedDate = new Date(bYear, bMonth - 1, bDay);
+            let atleast14 = new Date(1970 + 14, 0, 1);
+            let noMoreThan70 = new Date(1970 + 70, 0, 1);
+            if (
+              currentDate - pickedDate < atleast14 ||
+              currentDate - pickedDate > noMoreThan70
+            ) {
+              setdateError(
+                "It looks like you have entered wrong info . Please make sure that you use your real date of birth"
+              );
+            } else if (gender === "") {
+              setdateError("");
+              setGenderError(
+                "Please Choose a gender , you can change who can see this later"
+              );
+            } else {
+              setdateError("");
+              setGenderError("");
+            }
+          }}
         >
           {(formik) => (
             <Form className="register_form">
@@ -146,87 +165,35 @@ const RegisterForm = () => {
                 <div className="reg_line_header">
                   Date Of Birth <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <select
-                    name="bDay"
-                    value={bDay}
-                    onChange={handleRegisterChange}
-                  >
-                    {days.map((day, i) => (
-                      <option value={day} key={i}>
-                        {day}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bMonth"
-                    value={bMonth}
-                    onChange={handleRegisterChange}
-                  >
-                    {months.map((month, i) => (
-                      <option value={month} key={i}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bYear"
-                    value={bYear}
-                    onChange={handleRegisterChange}
-                  >
-                    {years.map((year, i) => (
-                      <option value={year} key={i}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <DateOfBirthSelect
+                  bDay={bDay}
+                  bMonth={bMonth}
+                  bYear={bYear}
+                  days={days}
+                  months={months}
+                  years={years}
+                  handleRegisterChange={handleRegisterChange}
+                  dateError={dateError}
+                />
               </div>
               <div className="reg_col">
                 <div className="reg_line_header">
                   Gender <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <label htmlFor="male">
-                    Male
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="male"
-                      value="male"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="female">
-                    Female
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="female"
-                      value="female"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="other">
-                    Other
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="other"
-                      value="other"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                </div>
-                <div className="reg_infos">
-                  By clicking Sign up , You agree to ou{" "}
-                  <span>Terms And Data Policy &nbsp;</span>and{" "}
-                  <span>Cookie Policy</span>You May recieve SMS notification
-                  from us and can opt out at any time
-                </div>
-                <div className="reg_btn_wrapper">
-                  <button className="blue_btn open_signup">Sign Up</button>{" "}
-                </div>
+                <GenderSelect
+                  handleRegisterChange={handleRegisterChange}
+                  genderError={genderError}
+                />
+              </div>
+              <div className="reg_infos">
+                By clicking Sign up , You agree to ou{" "}
+                <span>Terms And Data Policy &nbsp;</span>and{" "}
+                <span>Cookie Policy</span>
+                You May recieve SMS notification from us and can opt out at any
+                time
+              </div>
+              <div className="reg_btn_wrapper">
+                <button className="blue_btn open_signup">Sign Up</button>{" "}
               </div>
             </Form>
           )}
