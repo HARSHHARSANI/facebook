@@ -14,7 +14,6 @@ export const register = async (req, res) => {
     const {
       first_name,
       last_name,
-      username,
       email,
       password,
       bYear,
@@ -166,7 +165,6 @@ export const login = async (req, res) => {
       verified: user.verified,
       message: "Login Success!",
     });
-  
   } catch (error) {
     console.log(error);
     return res.status(500).send({
