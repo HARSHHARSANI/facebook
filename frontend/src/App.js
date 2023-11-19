@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login.js";
 import Profile from "./pages/profile/Profile.js";
 import Home from "./pages/home/Home.js";
+import Header from "./components/header/Header.js";
 
 function App() {
   return (
