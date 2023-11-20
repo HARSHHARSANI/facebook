@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ArrowDown,
   Friends,
@@ -15,11 +15,13 @@ import {
 import "./style.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import SearchMenu from "./SearchMenu";
 
 const Header = () => {
-  const color = "#65676b";
   const { user } = useSelector((user) => ({ ...user }));
-  console.log(user);
+  const color = "#65676b";
+
+  const [showSearchMenu, setShowSearchMenu] = useState(false);
   return (
     <header>
       <div className="header_left">
@@ -28,7 +30,12 @@ const Header = () => {
             <Logo />
           </div>
         </Link>
-        <div className="search search1">
+        <div
+          className="search search1"
+          onClick={() => {
+            setShowSearchMenu(true);
+          }}
+        >
           <Search color={color} />
           <input
             type="text"
@@ -37,6 +44,10 @@ const Header = () => {
           />
         </div>
       </div>
+
+      {showSearchMenu && (
+        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+      )}
       <div className="header_middle">
         <Link to={"/"} className="middle_icon active">
           <HomeActive color={color} />
