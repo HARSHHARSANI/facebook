@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ArrowDown,
   Friends,
@@ -16,12 +16,21 @@ import "./style.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SearchMenu from "./SearchMenu";
+import AllMenu from "./AllMenu";
+import useClickOutside from "../helpers/clickOutside";
+import UserMenu from "./UserMenu";
 
 const Header = () => {
   const { user } = useSelector((user) => ({ ...user }));
   const color = "#65676b";
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const [showAllMenu, setShowAllMenu] = useState(false);
+  const allmenu = useRef(null);
+  useClickOutside(allmenu, () => {
+    setShowAllMenu(false);
+  });
+
   return (
     <header>
       <div className="header_left">
@@ -67,7 +76,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="header_right">
-        <Link className="profile_link hover1">
+        <Link to={"/profile"} className="profile_link hover1">
           <img
             src={process.env.PUBLIC_URL + "/images/default_pic.png"}
             alt=""
@@ -75,8 +84,15 @@ const Header = () => {
 
           <span>{user?.first_name}</span>
         </Link>
-        <div className="circle_icon hover1">
+        <div
+          className="circle_icon hover1"
+          ref={allmenu}
+          onClick={() => {
+            setShowAllMenu(!showAllMenu);
+          }}
+        >
           <Menu />
+          {showAllMenu && <AllMenu />}
         </div>
         <div className="circle_icon hover1">
           <Messenger />
@@ -87,6 +103,7 @@ const Header = () => {
         </div>
         <div className="circle_icon hover1">
           <ArrowDown />
+          <UserMenu />
         </div>
       </div>
     </header>
