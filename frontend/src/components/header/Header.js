@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import SearchMenu from "./SearchMenu";
 import AllMenu from "./AllMenu";
 import useClickOutside from "../helpers/clickOutside";
-import UserMenu from "./UserMenu";
+import UserMenu from "./userMenu/UserMenu";
 
 const Header = () => {
   const { user } = useSelector((user) => ({ ...user }));
@@ -26,9 +26,14 @@ const Header = () => {
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
+  const [ShowUserMenu, setShowUserMenu] = useState(false);
   const allmenu = useRef(null);
+  const usermenu = useRef(null);
   useClickOutside(allmenu, () => {
     setShowAllMenu(false);
+  });
+  useClickOutside(usermenu, () => {
+    setShowUserMenu(false);
   });
 
   return (
@@ -84,14 +89,15 @@ const Header = () => {
 
           <span>{user?.first_name}</span>
         </Link>
-        <div
-          className="circle_icon hover1"
-          ref={allmenu}
-          onClick={() => {
-            setShowAllMenu(!showAllMenu);
-          }}
-        >
-          <Menu />
+        <div className="circle_icon hover1" ref={allmenu}>
+          <div
+            onClick={() => {
+              setShowAllMenu(!showAllMenu);
+            }}
+          >
+            <Menu />
+          </div>
+
           {showAllMenu && <AllMenu />}
         </div>
         <div className="circle_icon hover1">
@@ -101,9 +107,17 @@ const Header = () => {
           <Notifications />
           <div className="right_notification">5</div>
         </div>
-        <div className="circle_icon hover1">
-          <ArrowDown />
-          <UserMenu />
+        <div className="circle_icon hover1" ref={usermenu}>
+          <div
+            onClick={() => {
+              setShowUserMenu(!ShowUserMenu);
+            }}
+          >
+            {" "}
+            <ArrowDown />
+          </div>
+
+          {ShowUserMenu && <UserMenu user={user} />}
         </div>
       </div>
     </header>

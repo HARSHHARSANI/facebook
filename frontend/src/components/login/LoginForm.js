@@ -44,6 +44,8 @@ const LoginForm = ({ setVisible }) => {
         }
       );
 
+      console.log(data);
+
       dispatch({ type: "LOGIN", payload: data });
       Cookies.set("user", JSON.stringify(data));
       navigate("/");
